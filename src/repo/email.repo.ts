@@ -37,7 +37,7 @@ export const EmailsRepo: IEmailsRepo = {
                 },
                 viewPath: viewPath,
                 extName: '.handlebars',
-            }))
+            }));
 
             const mailOptions: MailOptions = {
                 from: process.env.CONFIRM_EMAIL,
