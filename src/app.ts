@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import * as dotEnv from 'dotenv';
 import router from './commons/routesConfig';
+import cors from 'cors';
 
 const app = express();
 const port = 8003;
@@ -11,6 +12,14 @@ dotEnv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// List Cors
+const allowedOrigins = ['http://localhost:3000','*'];
+
+const options: cors.CorsOptions = {
+  origin: allowedOrigins
+};
+
+app.use(cors(options));
 
 app.use(router);
 mongoose.connect(process.env.DB_HOST as string).catch((e) => {
