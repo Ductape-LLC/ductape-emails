@@ -13,7 +13,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // List Cors
-const allowedOrigins = ['http://localhost:3000','*'];
+const allowedOrigins = ['http://localhost:3000', 
+'https://ductape-frontend.vercel.app', 
+'https://ductape-users.herokuapp.com', 
+'https://ductape-workspaces.herokuapp.com',
+'https://ductape-apps.herokuapp.com',
+'https://ductape-actions.herokuapp.com'];
 
 // set cors options
 const options: cors.CorsOptions = {
