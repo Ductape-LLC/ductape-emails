@@ -4,6 +4,7 @@ import SUCCESS from "../commons/successResponse";
 import ERROR from "../commons/errorResponse";
 import EmailSchema from "../validators/email.validator.create";
 import ForgotSchema from "../validators/email.validator.forgot";
+import OTPSchema from "../validators/email.validator.otp"
 import { extractError } from "../utils/email.utils.string";
 import { genericErrors } from "../types/email.type";
 import { validateModuleRequest } from "../middleware/emails.middleware.modules";
@@ -25,6 +26,7 @@ router.post(
       const result = await emailService.accountConfirmation(body);
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
+      if(process.env.NODE_ENV !== "production") console.log("ERROR-CONFIRM-EMAIL", e);
       const error = extractError(e as unknown as genericErrors);
       return res.status(500).json(ERROR(error));
     }
@@ -42,13 +44,35 @@ router.post(
       const {error} = await ForgotSchema.validateAsync(body);
       if (error) return res.status(400).json(ERROR(error))
 
+      if(process.env.NODE_ENV !== "production") console.log("Zuper!")
       const result = await emailService.accountForgot(body);
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
+      if(process.env.NODE_ENV !== "production") console.log("ERROR-FORGOT-EMAIL", e);
       const error = extractError(e as unknown as genericErrors);
       return res.status(500).json(ERROR(error));
     }
   }
 );
+
+router.post(
+  "/otp",
+  // @ts-ignore
+  validateModuleRequest,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { body } = req;
+
+      const {error} = await OTPSchema.validateAsync(body);
+      if(error) return res.status(400).json(ERROR(error));
+      const result = await emailService.accountOTP(body);
+      return res.status(201).json(SUCCESS(result));
+    } catch (e) {
+      if(process.env.NODE_ENV !== "production") console.log("ERROR-OTP-EMAIL", e);
+      const error = extractError(e as unknown as genericErrors);
+      return res.status(500).json(ERROR(error));
+    }
+  }
+)
 
 export default router;

@@ -16,4 +16,13 @@ export interface forgotEmailRequests {
     token: string;
 };
 
+export interface otpEmailRequests {
+    firstname: string;
+    lastname: string;
+    email: string;
+    public_key: string;
+    otp_id: string;
+    token: string;
+};
+
 export interface genericErrors { code?: number, _original: unknown, details: [{ message: string }] }
