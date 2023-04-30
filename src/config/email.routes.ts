@@ -20,8 +20,7 @@ router.post(
     try {
       const { body } = req;
 
-      const {error} = await EmailSchema.validateAsync(body);
-      if (error) return res.status(400).json(ERROR(error))
+      await EmailSchema.validateAsync(body);
 
       const result = await emailService.accountConfirmation(body);
       return res.status(201).json(SUCCESS(result));
@@ -41,8 +40,7 @@ router.post(
     try {
       const { body } = req;
 
-      const {error} = await ForgotSchema.validateAsync(body);
-      if (error) return res.status(400).json(ERROR(error))
+      await ForgotSchema.validateAsync(body);
 
       if(process.env.NODE_ENV !== "production") console.log("Zuper!")
       const result = await emailService.accountForgot(body);
@@ -63,8 +61,8 @@ router.post(
     try {
       const { body } = req;
 
-      const {error} = await OTPSchema.validateAsync(body);
-      if(error) return res.status(400).json(ERROR(error));
+      await OTPSchema.validateAsync(body);
+      
       const result = await emailService.accountOTP(body);
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
