@@ -3,6 +3,7 @@ import Mail from "nodemailer/lib/mailer";
 import { mailerClient } from "../clients/nodemailer";
 import { confirmationEmailRequests } from "../types/email.type";
 import { sha256 } from "./email.utils.string";
+import { UserError, handleError } from "../errors/errors";
 
 export const createEmails = async(payload: Mail.Options): Promise<boolean> =>{
     try{
@@ -12,8 +13,8 @@ export const createEmails = async(payload: Mail.Options): Promise<boolean> =>{
         if(create){
             return true
         }
-        throw "Email sending failed";
+        throw new UserError("Email sending failed",400);
     } catch(e) {
-        throw e;
+        throw handleError(e);
     }
 }

@@ -4,6 +4,7 @@ import hbs from "nodemailer-express-handlebars";
 import path from "path";
 import express from "express";
 import { MailOptions } from "nodemailer/lib/json-transport";
+import { handleError } from "../errors/errors";
 
 export interface IEmailsRepo {
     createConfirmationEmail(payload: confirmationEmailRequests): Promise<unknown>;
@@ -56,7 +57,7 @@ export const EmailsRepo: IEmailsRepo = {
             return success
         } catch (e) {
             if(process.env.NODE_ENV !== "production") console.log(e);
-            throw e;
+            throw handleError(e);
         }
     },
     async createForgotEmail(payload: forgotEmailRequests): Promise<unknown> {
@@ -104,7 +105,7 @@ export const EmailsRepo: IEmailsRepo = {
             return success
         } catch (e) {
             if(process.env.NODE_ENV !== "production") console.log(e);
-            throw e;
+            throw handleError(e);
         }
     },
     async createOTPEmail(payload: otpEmailRequests): Promise<unknown> {
@@ -150,7 +151,7 @@ export const EmailsRepo: IEmailsRepo = {
             return success
         } catch (e) {
             if(process.env.NODE_ENV !== "production") console.log(e);
-            throw e;
+            throw handleError(e);
         }
     },
     async fetch(get: any): Promise<Array<confirmationEmailRequests>> {
