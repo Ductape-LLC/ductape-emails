@@ -4,9 +4,7 @@ import SUCCESS from "../commons/successResponse";
 import ERROR from "../commons/errorResponse";
 import EmailSchema from "../validators/email.validator.create";
 import ForgotSchema from "../validators/email.validator.forgot";
-import OTPSchema from "../validators/email.validator.otp"
-import { extractError } from "../utils/email.utils.string";
-import { genericErrors } from "../types/email.type";
+import OTPSchema from "../validators/email.validator.otp";
 import { validateModuleRequest } from "../middleware/emails.middleware.modules";
 
 const router = Router();
@@ -14,7 +12,6 @@ const emailService = new EmailService();
 
 router.post(
   "/confirmation",
-  // @ts-ignore
   validateModuleRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -26,15 +23,13 @@ router.post(
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
       if(process.env.NODE_ENV !== "production") console.log("ERROR-CONFIRM-EMAIL", e);
-      const error = extractError(e as unknown as genericErrors);
-      return res.status(500).json(ERROR(error));
+      next();
     }
   }
 );
 
 router.post(
   "/forgot",
-  // @ts-ignore
   validateModuleRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -47,15 +42,13 @@ router.post(
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
       if(process.env.NODE_ENV !== "production") console.log("ERROR-FORGOT-EMAIL", e);
-      const error = extractError(e as unknown as genericErrors);
-      return res.status(500).json(ERROR(error));
+      next();
     }
   }
 );
 
 router.post(
   "/otp",
-  // @ts-ignore
   validateModuleRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -67,8 +60,7 @@ router.post(
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
       if(process.env.NODE_ENV !== "production") console.log("ERROR-OTP-EMAIL", e);
-      const error = extractError(e as unknown as genericErrors);
-      return res.status(500).json(ERROR(error));
+      next();
     }
   }
 )
