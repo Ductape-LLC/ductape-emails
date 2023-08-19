@@ -68,7 +68,6 @@ export const EmailsRepo: IEmailsRepo = {
             const { firstname,
                 lastname,
                 email,
-                public_key,
                 token } = payload;
 
             const transporter = mailerClient();
