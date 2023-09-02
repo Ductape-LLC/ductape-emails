@@ -1,19 +1,17 @@
 import nodemailer, { Transport } from "nodemailer";
+import mailjetTransport from "nodemailer-mailjet-transport";
 
 export const mailerClient = () => {
-    const transport = nodemailer.createTransport({
-        host: process.env.MAIL_HOST,
-        port: parseInt(process.env.MAIL_PORT as string),
+
+    const mailjetOptions = {
+        service: 'Mailjet',
         auth: {
-            user: process.env.MAIL_USER,
-            pass: process.env.MAIL_PASSWORD,
-            
+          api_key: "e8fa0018dcf81e45bb3a10548e08752c",
+          api_secret: "436acda29c452d6ef4426d9d8102538d",
         },
-        secure: false,
-        tls: {
-            rejectUnauthorized: false
-        }
-    } as unknown as Transport<unknown>);
+      };
+
+    const transport = nodemailer.createTransport(mailjetTransport(mailjetOptions));
 
     return transport
 }

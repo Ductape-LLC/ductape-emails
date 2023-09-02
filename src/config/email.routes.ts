@@ -23,7 +23,7 @@ router.post(
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
       if(process.env.NODE_ENV !== "production") console.log("ERROR-CONFIRM-EMAIL", e);
-      next();
+      next(e);
     }
   }
 );
@@ -42,17 +42,18 @@ router.post(
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
       if(process.env.NODE_ENV !== "production") console.log("ERROR-FORGOT-EMAIL", e);
-      next();
+      next(e);
     }
   }
 );
 
 router.post(
   "/otp",
-  validateModuleRequest,
+  // validateModuleRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req;
+      console.log("ZAMENAMENA");
 
       await OTPSchema.validateAsync(body);
       
@@ -60,7 +61,7 @@ router.post(
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
       if(process.env.NODE_ENV !== "production") console.log("ERROR-OTP-EMAIL", e);
-      next();
+      next(e);
     }
   }
 )

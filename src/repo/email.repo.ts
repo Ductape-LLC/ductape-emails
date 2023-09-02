@@ -135,7 +135,7 @@ export const EmailsRepo: IEmailsRepo = {
             }))
 
             const mailOptions: MailOptions = {
-                from: process.env.MAIL_USER,
+                from: "validation@ductape.app",
                 to: email,
                 subject: 'Ductape.io Login OTP',
                 // @ts-ignore
