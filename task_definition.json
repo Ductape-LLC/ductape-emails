@@ -1,0 +1,111 @@
+{
+  "family": "ductape-emails-task-def",
+  "containerDefinitions": [
+    {
+      "name": "ductape-emails",
+      "image": "IMAGE_VALUE",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "name": "ductape-emails-8003-tcp",
+          "containerPort": 8003,
+          "hostPort": 8003,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "environment": [
+        {
+          "name": "NODE_ENV",
+          "value": "NODE_ENV_VALUE"
+        },
+        {
+          "name": "MODULE",
+          "value": "MODULE_VALUE"
+        },
+        {
+          "name": "ENC_KEY",
+          "value": "ENC_KEY_VALUE"
+        },
+        {
+          "name": "DB_HOST",
+          "value": "DB_HOST_VALUE"
+        },
+        {
+          "name": "DEVELOPER_SERVICE",
+          "value": "DEVELOPER_SERVICE_VALUE"
+        },
+        {
+          "name": "MAIL_HOST",
+          "value": "MAIL_HOST_VALUE"
+        },
+        {
+          "name": "MAIL_PORT",
+          "value": "MAIL_PORT_VALUE"
+        },
+        {
+          "name": "MAIL_SERVICE",
+          "value": "MAIL_SERVICE_VALUE"
+        },
+        {
+          "name": "MAIL_PASSWORD",
+          "value": "MAIL_PASSWORD_VALUE"
+        },
+        {
+          "name": "MAIL_SECURE_FLAG",
+          "value": "MAIL_SECURE_FLAG_VALUE"
+        },
+        {
+          "name": "MAIL_UNAUTHORIZED_FLAG",
+          "value": "MAIL_UNAUTHORIZED_FLAG_VALUE"
+        },
+        {
+          "name": "MAIL_USER",
+          "value": "MAIL_USER_VALUE"
+        },
+        {
+          "name": "SMTP_HOST",
+          "value": "SMTP_HOST_VALUE"
+        },
+        {
+          "name": "SMTP_PORT",
+          "value": "SMTP_PORT_VALUE"
+        },
+        {
+          "name": "SMTP_USER",
+          "value": "SMTP_USER_VALUE"
+        },
+        {
+          "name": "SMTP_PASSWORD",
+          "value": "SMTP_PASSWORD_VALUE"
+        }
+      ],
+      "environmentFiles": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "ulimits": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/ecs/ductape-emails-task-def",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      }
+    }
+  ],
+  "taskRoleArn": "arn:aws:iam::423650960837:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::423650960837:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "volumes": []
+}

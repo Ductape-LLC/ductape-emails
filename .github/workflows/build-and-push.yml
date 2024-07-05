@@ -1,0 +1,103 @@
+name: Build and Push Container Image
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Login to AWS ECR
+        uses: aws-actions/amazon-ecr-login@v1
+        id: login-ecr
+
+      - name: Print Latest Commit SHA
+        run: echo "Latest Commit SHA - ${{github.sha}}"
+
+      - name: free disk space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
+          df -h
+
+      - name: Build, Tag and Push the Image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ductape
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Setup Task Definition file
+        uses: restackio/update-json-values-action@v1.0.0
+        with:
+          file: task_definition.json
+          values: '{
+            "NODE_ENV_VALUE": "${{ secrets.NODE_ENV }}",
+            "MODULE_VALUE": "${{ secrets.MODULE }}",
+            "ENC_KEY_VALUE": "${{ secrets.ENC_KEY }}",
+            "DB_HOST_VALUE": "${{ secrets.DB_HOST }}",
+            "DEVELOPER_SERVICE_VALUE": "${{ secrets.DEVELOPER_SERVICE }}",
+            "MAIL_HOST_VALUE": "${{ secrets.MAIL_HOST }}",
+            "MAIL_PORT_VALUE": "${{ secrets.MAIL_PORT }}",
+            "MAIL_SERVICE_VALUE": "${{ secrets.MAIL_SERVICE }}",
+            "MAIL_PASSWORD_VALUE": "${{ secrets.MAIL_PASSWORD }}",
+            "MAIL_SECURE_FLAG_VALUE": "${{ secrets.MAIL_SECURE_FLAG }}",
+            "MAIL_UNAUTHORIZED_FLAG_VALUE": "${{ secrets.MAIL_UNAUTHORIZED_FLAG }}",
+            "MAIL_USER_VALUE": "${{ secrets.MAIL_USER }}",
+            "SMTP_HOST_VALUE": "${{ secrets.SMTP_HOST }}",
+            "SMTP_PORT_VALUE": "${{ secrets.SMTP_PORT }}",
+            "SMTP_USER_VALUE": "${{ secrets.SMTP_USER }}",
+            "SMTP_PASSWORD_VALUE": "${{ secrets.SMTP_PASSWORD }}"
+            }'
+
+      - name: Print Task Definition
+        run: cat ${{ github.workspace }}/task_definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task_definition.json
+          container-name: ductape-emails
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Ensure jq is installed
+        run: sudo apt-get install -y jq
+
+      - name: Register Task Definition
+        id: register-task-def
+        run: |
+          TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://${{ steps.task-def.outputs.task-definition }} \
+            | jq -r '.taskDefinition.taskDefinitionArn')
+          echo "::set-output name=taskDefArn::$TASK_DEF_ARN"
+
+      - name: Update ECS Service
+        run: |
+          aws ecs update-service \
+            --cluster ductape \
+            --service ductape-emails-service \
+            --task-definition ${{ steps.register-task-def.outputs.taskDefArn }} \
+            --desired-count 1 \
+            --network-configuration "awsvpcConfiguration={subnets=["subnet-aaf5ffc2", "subnet-b7f2b2cd", "subnet-e2a308ae"],securityGroups=["sg-067a7f49952400d50"],assignPublicIp=ENABLED}" \
+            --load-balancers "targetGroupArn=arn:aws:elasticloadbalancing:us-east-2:423650960837:targetgroup/ductape-emails/ae3b631a2b94eb06,containerName=ductape-emails,containerPort=8003" \
+            --force-new-deployment
