@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ductape Member Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
+    {{>_styles}}
+</head>
+
+<body>
+    <div class="email-container">
+        {{>_header}}
+        <!-- Content -->
+        <div class="content">
+            <img src="https://res.cloudinary.com/duqb0opue/image/upload/v1729560546/new-member_c3ddxj.png" alt="new member" />
+            <h1>A new member has joined your workspace</h1>
+            <p style="padding-bottom: 20px; padding-bottom: 20px;">Hey {{owner}},</p>
+            <p>
+
+                {{firstname}} {{lastname}} ({{email}}) just joined your team as a member. Well done!
+
+            </p>
+            <p style="padding-top: 20px; padding-bottom: 20px;">
+
+                You can always manage this user’s role in your team settings..</p>
+          
+        </div>
+        {{>_footer}}
+    </div>
+</body>
+
+</html>

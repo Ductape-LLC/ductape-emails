@@ -25,4 +25,15 @@ export interface otpEmailRequests {
     token: string;
 };
 
+export interface workspaceEmailRequests {
+    firstname?: string;
+    lastname?: string;
+    email?: string;
+    year?: string;
+    workspace_name?: string;
+    owner?: string;
+    invitation_link?: string;
+    owner_email?: string;
+  }
+
 export interface genericErrors { code?: number, _original: unknown, details: [{ message: string }] }
