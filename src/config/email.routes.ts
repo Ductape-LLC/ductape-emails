@@ -4,6 +4,7 @@ import SUCCESS from "../commons/successResponse";
 import ERROR from "../commons/errorResponse";
 import EmailSchema from "../validators/email.validator.create";
 import ForgotSchema from "../validators/email.validator.forgot";
+import WorkspaceSchema from "../validators/email.validator.workspace";
 import OTPSchema from "../validators/email.validator.otp";
 import { validateModuleRequest } from "../middleware/emails.middleware.modules";
 
@@ -65,5 +66,43 @@ router.post(
     }
   }
 )
+
+router.post(
+  "/workspace-invite",
+  validateModuleRequest,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { body } = req;
+
+      await WorkspaceSchema.validateAsync(body);
+
+      if(process.env.NODE_ENV !== "production") console.log("Zuper!")
+      const result = await emailService.workspaceInvite(body);
+      return res.status(201).json(SUCCESS(result));
+    } catch (e) {
+      if(process.env.NODE_ENV !== "production") console.log("ERROR-WORKSPACE-INVITE-EMAIL", e);
+      next(e);
+    }
+  }
+);
+
+router.post(
+  "/workspace-new-member",
+  validateModuleRequest,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { body } = req;
+
+      await WorkspaceSchema.validateAsync(body);
+
+      if(process.env.NODE_ENV !== "production") console.log("Zuper!")
+      const result = await emailService.workspaceNewMember(body);
+      return res.status(201).json(SUCCESS(result));
+    } catch (e) {
+      if(process.env.NODE_ENV !== "production") console.log("ERROR-WORKSPACE-NEW-MEMBER-EMAIL", e);
+      next(e);
+    }
+  }
+);
 
 export default router;
