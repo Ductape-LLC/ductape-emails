@@ -79,6 +79,10 @@
         {
           "name": "SMTP_PASSWORD",
           "value": "SMTP_PASSWORD_VALUE"
+        },
+        {
+          "name": "INVITE_REDIRECT_URL",
+          "value": "INVITE_REDIRECT_URL_VALUE"
         }
       ],
       "environmentFiles": [],
