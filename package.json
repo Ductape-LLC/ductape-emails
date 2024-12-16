@@ -7,7 +7,7 @@
     "start:prod": "tsc && node build/src/app.js",
     "start": "node ./build/src/app.js",
     "serve": "nodemon ./src/app.ts",
-    "build": "tsc --project ./ || true",
+    "build": "tsc --project ./ && node ./build/src/tools/copyAssets",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Sanni Oluwafikayo",
@@ -19,6 +19,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/nodemailer": "^6.4.15",
     "@types/nodemailer-express-handlebars": "^4.0.2",
+    "@types/shelljs": "^0.8.15",
     "@types/uuid": "^8.3.4",
     "nodemon": "^2.0.18",
     "ts-node": "^10.8.1",
@@ -37,6 +38,7 @@
     "nodemailer": "^6.7.7",
     "nodemailer-express-handlebars": "^5.0.0",
     "nodemailer-mailjet-transport": "^1.0.4",
+    "shelljs": "^0.8.5",
     "uuid": "^8.3.2",
     "uuidv4": "^6.2.13",
     "xoauth2": "^1.2.0"
