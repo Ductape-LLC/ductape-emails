@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body: {
-            color: black;
-        }
-    </style>
+    <title>Email Verification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
+    {{>styles}}
 </head>
+
 <body>
-    <div style="border: 1px solid black;  width: 100%">
-        <div style="padding:30px;">
-            {{>header}}
-            <p style="font-family: Verdana;">Hi, {{firstname}} {{lastname}}</p>
-            <br>
-            <p style="font-weight: 100; font-size: 16px ; line-height: 37px;  font-family: Verdana; color: #1C1E3A; font-family: Verdana;">Thanks for registering to Ductape.io. Please pass the OTP below to validate your email address.</p>
-            <br>
-            <div style="background: transparent linear-gradient(90deg, #2BAD90 0%, #00489A 100%) 0% 0% no-repeat padding-box;
-                        background: transparent linear-gradient(90deg, #2BAD90 0%, #00489A 100%) 0% 0% no-repeat padding-box;
-                        width: 497px; height: 133px; color: white; padding: 1px 0 10px 0;">
-                    <p style="text-align: center; font-weight: 100; font-size: 20px ; line-height: 57px;  font-family: Verdana; margin: 0px;">Email Validation OTP:</p>
-                    <p style="text-align: center; font-weight: 100; font-size: 50px ; line-height: 57px;  font-family: Verdana;  margin: 0px;">{{token}}</p>
+    <div class="email-container">
+        <!-- Header -->
+        {{>header}}
+
+        <!-- Content -->
+        <div class="content">
+            <h1>Verify Account</h1>
+            <p style="padding-bottom: 20px; padding-bottom: 20px;">Hey {{firstname}},</p>
+            <p>Thank you for signing up on Ductape. This is the start of an exciting journey
+            </p>
+            <p style="padding-top: 20px; padding-bottom: 20px;">Click the button below to verify your account and get started.</p>
+            <div class="button">
+                <a href="{{confirmation_link}}">Verify Email Address</a>
             </div>
-            <br>
-            <br>
         </div>
-            {{>footer}}
-        
+
+        <!-- Footer -->
+        {{>footer}}
     </div>
 </body>
+
 </html>
