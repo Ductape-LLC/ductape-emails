@@ -50,7 +50,7 @@ router.post(
 
 router.post(
   "/otp",
-  // validateModuleRequest,
+  validateModuleRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body } = req;
