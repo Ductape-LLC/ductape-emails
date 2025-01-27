@@ -8,6 +8,8 @@ import { handleError } from '../errors/errors';
 import * as dotEnv from 'dotenv';
 dotEnv.config();
 
+const year = new Date().getFullYear();
+
 export interface IEmailsRepo {
   createConfirmationEmail(payload: confirmationEmailRequests): Promise<unknown>;
   createForgotEmail(payload: forgotEmailRequests): Promise<unknown>;
@@ -47,10 +49,10 @@ export const EmailsRepo: IEmailsRepo = {
       const mailOptions: MailOptions = {
         from: process.env.MAIL_USER,
         to: email,
-        subject: 'Confirm your Ductape.io account',
+        subject: 'Welcome to Ductape',
         // @ts-ignore
-        template: 'confirm',
-        context: { firstname, lastname, token },
+        template: 'welcome',
+        context: { firstname, lastname, token, year },
         /**attachments: [
                   { filename: 'abc.jpg', path: path.resolve(__dirname, './image/abc.jpg')}
                 ]*/
@@ -95,7 +97,7 @@ export const EmailsRepo: IEmailsRepo = {
         subject: 'Ductape.io Password Reset',
         // @ts-ignore
         template: 'forgot',
-        context: { firstname, lastname, token },
+        context: { firstname, lastname, token, year },
         /**attachments: [
                   { filename: 'abc.jpg', path: path.resolve(__dirname, './image/abc.jpg')}
                 ]*/
@@ -142,7 +144,7 @@ export const EmailsRepo: IEmailsRepo = {
         subject: 'Ductape.io Login OTP',
         // @ts-ignore
         template: 'otp',
-        context: { firstname, lastname, token },
+        context: { firstname, lastname, token, year },
         /**attachments: [
                   { filename: 'abc.jpg', path: path.resolve(__dirname, './image/abc.jpg')}
                 ]*/
