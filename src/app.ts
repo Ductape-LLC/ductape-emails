@@ -27,7 +27,7 @@ const options: cors.CorsOptions = {
 
 app.use(cors(options));
 
-app.get('/api/v1/status', (_req, res) => {
+app.get('/emails/v1/status', (_req, res) => {
   res.send(`ductape-emails-api is healthy`);
 });
 
