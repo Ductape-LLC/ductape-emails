@@ -8,7 +8,7 @@ COPY package*.json ./
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # Install Dependencies
-RUN npm i
+RUN npm install --production=false
 
 COPY . .
 

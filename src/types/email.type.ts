@@ -23,6 +23,7 @@ export interface otpEmailRequests {
     public_key: string;
     otp_id: string;
     token: string;
+    type: string;
 };
 
 export interface workspaceEmailRequests {
