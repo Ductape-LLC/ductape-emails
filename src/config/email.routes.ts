@@ -68,6 +68,25 @@ router.post(
 )
 
 router.post(
+  "/otp",
+  validateModuleRequest,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { body } = req;
+      console.log("ZAMENAMENA");
+
+      await OTPSchema.validateAsync(body);
+      
+      const result = await emailService.accountOTP(body);
+      return res.status(201).json(SUCCESS(result));
+    } catch (e) {
+      if(process.env.NODE_ENV !== "production") console.log("ERROR-OTP-EMAIL", e);
+      next(e);
+    }
+  }
+)
+
+router.post(
   "/workspace-invite",
   validateModuleRequest,
   async (req: Request, res: Response, next: NextFunction) => {

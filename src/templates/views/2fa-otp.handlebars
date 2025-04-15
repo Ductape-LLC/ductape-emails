@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
+    {{>styles}}
+</head>
+
+<body>
+    <div class="email-container">
+        {{>header}}
+
+        <!-- Content -->
+        <div class="content">
+            <img src="https://res.cloudinary.com/duqb0opue/image/upload/v1737932111/password_tgpvz0.png" alt="new member" />
+            <h1>2FA OTP</h1>
+            <p style="padding-bottom: 20px; padding-bottom: 20px;">Hey {{firstname}},</p>
+            <p>Find Below, your 2FA OTP</p>
+            <p>2FA OTP</p>
+            <p>{{token}}</p>
+            <p>
+                This code expires in 5 minutes. If you did not initiate this action, we advise you change your password
+                as soon as possible.
+            </p>
+            <div>
+                <p>Best regards,</p>
+                <p>Ductape Team.</p>
+            </div>
+        </div>
+        {{>footer}}
+    </div>
+</body>
+
+</html>
