@@ -15,6 +15,7 @@ export interface IEmailsRepo {
   createForgotEmail(payload: forgotEmailRequests): Promise<unknown>;
   fetch(get: unknown): Promise<Array<confirmationEmailRequests>>;
   createOTPEmail(payload: otpEmailRequests): Promise<unknown>;
+  create2FAEmail(payload: otpEmailRequests): Promise<unknown>;
   createWorkspaceInviteEmail(payload: any): Promise<unknown>;
   createWorkspaceNewMemberEmail(payload: any): Promise<unknown>;
 }
@@ -112,6 +113,7 @@ export const EmailsRepo: IEmailsRepo = {
       throw handleError(e);
     }
   },
+
   async createOTPEmail(payload: otpEmailRequests): Promise<unknown> {
     try {
       const viewPath = path.resolve(__dirname, '../templates/views/');
@@ -157,6 +159,53 @@ export const EmailsRepo: IEmailsRepo = {
       throw handleError(e);
     }
   },
+
+  async create2FAEmail(payload: otpEmailRequests): Promise<unknown> {
+    try {
+      const viewPath = path.resolve(__dirname, '../templates/views/');
+      const partialsPath = path.resolve(__dirname, '../templates/partials');
+
+      const { firstname, lastname, email, public_key, token } = payload;
+
+      const transporter = mailerClient();
+
+      transporter.use(
+        'compile',
+        hbs({
+          viewEngine: {
+            extName: '.handlebars',
+            // partialsDir: viewPath,
+            layoutsDir: viewPath,
+            // @ts-ignore
+            defaultLayout: false,
+            partialsDir: partialsPath,
+            express,
+          },
+          viewPath: viewPath,
+          extName: '.handlebars',
+        }),
+      );
+
+      const mailOptions: MailOptions = {
+        from: 'validation@ductape.app',
+        to: email,
+        subject: 'Ductape.io 2FA OTP',
+        // @ts-ignore
+        template: '2fa-otp',
+        context: { firstname, lastname, token, year },
+        /**attachments: [
+                  { filename: 'abc.jpg', path: path.resolve(__dirname, './image/abc.jpg')}
+                ]*/
+      };
+
+      const success = await transporter.sendMail(mailOptions);
+      return success;
+    } catch (e) {
+      if (process.env.NODE_ENV !== 'production') console.log(e);
+      throw handleError(e);
+    }
+  },
+
   async createWorkspaceInviteEmail(payload: workspaceEmailRequests): Promise<unknown> {
     try {
       const viewPath = path.resolve(__dirname, '../templates/views/');
