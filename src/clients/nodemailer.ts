@@ -1,32 +1,20 @@
 import nodemailer from 'nodemailer';
 import * as dotEnv from 'dotenv';
-import { google } from 'googleapis';
+import GmailTransport from 'gmail-nodemailer-transport';
 dotEnv.config();
 
-const CLIENT_ID = process.env.CLIENT_ID
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-const REDIRECT_URI = process.env.REDIRECT_URI;
-
-const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
-oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-
 export const mailerClient = async () => {
-  const accessToken = await oauth2Client.getAccessToken();
 
-  const transport = nodemailer.createTransport({
-    service: 'gmail',
+  const transporter = nodemailer.createTransport(new GmailTransport({
+    userId: process.env.MAIL_USER,               // your Gmail address
     auth: {
-      type: 'OAuth2',
-      user: process.env.MAIL_USER,
-      clientId: CLIENT_ID,
-      clientSecret: CLIENT_SECRET,
-      refreshToken: REFRESH_TOKEN,
-      accessToken: accessToken.token,
-    },
-  } as any);
+        clientId: process.env.CLIENT_ID,         
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+      }
+  }));
 
-  return transport;
+  return transporter;
 };
 
 /**host: 'smtp.xcelapp.com',
