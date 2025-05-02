@@ -28,7 +28,7 @@ export const EmailsRepo: IEmailsRepo = {
 
       const { firstname, lastname, email, public_key, token } = payload;
 
-      const transporter = mailerClient();
+      const transporter = await mailerClient();
 
       transporter.use(
         'compile',
@@ -73,7 +73,7 @@ export const EmailsRepo: IEmailsRepo = {
 
       const { firstname, lastname, email, token } = payload;
 
-      const transporter = mailerClient();
+      const transporter = await mailerClient();
 
       transporter.use(
         'compile',
@@ -121,7 +121,7 @@ export const EmailsRepo: IEmailsRepo = {
 
       const { firstname, lastname, email, public_key, token } = payload;
 
-      const transporter = mailerClient();
+      const transporter = await mailerClient();
 
       transporter.use(
         'compile',
@@ -167,7 +167,7 @@ export const EmailsRepo: IEmailsRepo = {
 
       const { firstname, lastname, email, public_key, token } = payload;
 
-      const transporter = mailerClient();
+      const transporter = await mailerClient();
 
       transporter.use(
         'compile',
@@ -215,7 +215,7 @@ export const EmailsRepo: IEmailsRepo = {
 
       const redirect_url = process.env.INVITE_REDIRECT_URL
 
-      const transporter = mailerClient();
+      const transporter = await mailerClient();
 
       transporter.use(
         'compile',
@@ -263,7 +263,7 @@ export const EmailsRepo: IEmailsRepo = {
 
       const { firstname, lastname, email, owner, year, owner_email } = payload;
 
-      const transporter = mailerClient();
+      const transporter = await mailerClient();
 
       transporter.use(
         'compile',
