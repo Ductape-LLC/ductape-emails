@@ -31,6 +31,7 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "gmail-nodemailer-transport": "^3.0.2",
     "googleapis": "^148.0.0",
     "hmacsha1": "^1.0.0",
     "joi": "^17.6.0",
