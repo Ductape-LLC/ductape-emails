@@ -9,7 +9,7 @@ export const createEmails = async(payload: Mail.Options): Promise<boolean> =>{
     try{
         
 
-        const create = await mailerClient().sendMail(payload)
+        const create = await (await mailerClient()).sendMail(payload)
         if(create){
             return true
         }
