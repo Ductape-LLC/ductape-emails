@@ -30,6 +30,24 @@ router.post(
 );
 
 router.post(
+  "/welcome",
+  validateModuleRequest,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { body } = req;
+
+      await EmailSchema.validateAsync(body);
+
+      const result = await emailService.welcomeEmail(body);
+      return res.status(201).json(SUCCESS(result));
+    } catch (e) {
+      if(process.env.NODE_ENV !== "production") console.log("ERROR-WELCOME-EMAIL", e);
+      next(e);
+    }
+  }
+);
+
+router.post(
   "/forgot",
   validateModuleRequest,
   async (req: Request, res: Response, next: NextFunction) => {
