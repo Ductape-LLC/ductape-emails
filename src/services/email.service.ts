@@ -22,6 +22,10 @@ export default class EmailsService implements IEmailsService {
     return await this.EmailRepo.createConfirmationEmail(payload);
   }
 
+  async welcomeEmail(payload: confirmationEmailRequests): Promise<unknown> {
+    return await this.EmailRepo.createWelcomeEmail(payload);
+  }
+
   async accountForgot(payload: forgotEmailRequests): Promise<unknown> {
     return await this.EmailRepo.createForgotEmail(payload);
   }
