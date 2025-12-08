@@ -36,6 +36,8 @@ export default class EmailsService implements IEmailsService {
       return await this.EmailRepo.createOTPEmail(payload);
     } else if (type === OTP_TYPES.TWO_FACTOR_AUTHENTICATION) {
       return await this.EmailRepo.create2FAEmail(payload);
+    } else if (type === OTP_TYPES.VERIFY_EMAIL) {
+      return await this.EmailRepo.createVerifyEmailOTP(payload);
     }
   }
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
+    {{>styles}}
+</head>
+
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        {{>header}}
+
+        <!-- Content -->
+        <div class="content">
+            <h1>Verify Your Email</h1>
+            <p style="padding-bottom: 20px;">Hey {{firstname}},</p>
+            <p>Thank you for signing up on Ductape. To complete your registration, please enter the verification code below:</p>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="background-color: #f5f5f5; border-radius: 8px; padding: 20px; display: inline-block;">
+                    <span style="font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #333;">{{token}}</span>
+                </div>
+            </div>
+
+            <p style="color: #666; font-size: 14px;">This code expires in <strong>5 minutes</strong>.</p>
+            <p style="color: #666; font-size: 14px;">If you did not create an account with Ductape, please ignore this email.</p>
+
+            <div style="margin-top: 30px;">
+                <p>Best regards,</p>
+                <p>The Ductape Team</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        {{>footer}}
+    </div>
+</body>
+
+</html>

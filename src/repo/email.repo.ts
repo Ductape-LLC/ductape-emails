@@ -23,6 +23,7 @@ export interface IEmailsRepo {
   fetch(get: unknown): Promise<Array<confirmationEmailRequests>>;
   createOTPEmail(payload: otpEmailRequests): Promise<unknown>;
   create2FAEmail(payload: otpEmailRequests): Promise<unknown>;
+  createVerifyEmailOTP(payload: otpEmailRequests): Promise<unknown>;
   createWorkspaceInviteEmail(payload: any): Promise<unknown>;
   createWorkspaceNewMemberEmail(payload: any): Promise<unknown>;
 }
@@ -251,6 +252,48 @@ export const EmailsRepo: IEmailsRepo = {
         /**attachments: [
                   { filename: 'abc.jpg', path: path.resolve(__dirname, './image/abc.jpg')}
                 ]*/
+      };
+
+      const success = await transporter.sendMail(mailOptions);
+      return success;
+    } catch (e) {
+      if (process.env.NODE_ENV !== 'production') console.log(e);
+      throw handleError(e);
+    }
+  },
+
+  async createVerifyEmailOTP(payload: otpEmailRequests): Promise<unknown> {
+    try {
+      const viewPath = path.resolve(__dirname, '../templates/views/');
+      const partialsPath = path.resolve(__dirname, '../templates/partials');
+
+      const { firstname, lastname, email, token } = payload;
+
+      const transporter = await mailerClient();
+
+      transporter.use(
+        'compile',
+        hbs({
+          viewEngine: {
+            extName: '.handlebars',
+            layoutsDir: viewPath,
+            // @ts-ignore
+            defaultLayout: false,
+            partialsDir: partialsPath,
+            express,
+          },
+          viewPath: viewPath,
+          extName: '.handlebars',
+        }),
+      );
+
+      const mailOptions: MailOptions = {
+        from: process.env.MAIL_USER,
+        to: email,
+        subject: 'Verify your Ductape account',
+        // @ts-ignore
+        template: 'verify-email',
+        context: { firstname, lastname, token, year },
       };
 
       const success = await transporter.sendMail(mailOptions);
