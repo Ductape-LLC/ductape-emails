@@ -4,6 +4,7 @@ import {
   forgotEmailRequests,
   otpEmailRequests,
   workspaceEmailRequests,
+  healthcheckAlertEmailRequest,
 } from '../types/email.type';
 import hbs from 'nodemailer-express-handlebars';
 import path from 'path';
@@ -26,9 +27,27 @@ export interface IEmailsRepo {
   createVerifyEmailOTP(payload: otpEmailRequests): Promise<unknown>;
   createWorkspaceInviteEmail(payload: any): Promise<unknown>;
   createWorkspaceNewMemberEmail(payload: any): Promise<unknown>;
+  createHealthcheckAlertEmail(payload: healthcheckAlertEmailRequest): Promise<unknown>;
 }
 
 export const EmailsRepo: IEmailsRepo = {
+  async createHealthcheckAlertEmail(payload: healthcheckAlertEmailRequest): Promise<unknown> {
+    const transporter = await mailerClient();
+    return transporter.sendMail({
+      from: process.env.MAIL_USER,
+      to: payload.emails.join(','),
+      subject: `Ductape health alert: ${payload.product}/${payload.healthcheck}`,
+      text: [
+        `A healthcheck changed from available to unavailable in ${payload.workspace_name || 'your workspace'}.`,
+        `Product: ${payload.product}`,
+        `Environment: ${payload.env}`,
+        `Healthcheck: ${payload.healthcheck}`,
+        `Reason: ${payload.reason || 'The provider operation failed.'}`,
+        '',
+        'Ductape will keep this provider out of linked quotas and fallbacks until a health probe succeeds.',
+      ].join('\n'),
+    });
+  },
   async createConfirmationEmail(payload: confirmationEmailRequests): Promise<unknown> {
     try {
       const viewPath = path.resolve(__dirname, '../templates/views/');

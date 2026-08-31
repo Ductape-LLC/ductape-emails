@@ -6,10 +6,21 @@ import EmailSchema from "../validators/email.validator.create";
 import ForgotSchema from "../validators/email.validator.forgot";
 import WorkspaceSchema from "../validators/email.validator.workspace";
 import OTPSchema from "../validators/email.validator.otp";
+import HealthcheckAlertSchema from '../validators/email.validator.healthcheck';
 import { validateModuleRequest } from "../middleware/emails.middleware.modules";
 
 const router = Router();
 const emailService = new EmailService();
+
+router.post('/healthcheck-alert', validateModuleRequest, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await HealthcheckAlertSchema.validateAsync(req.body);
+    const result = await emailService.healthcheckAlert(req.body);
+    return res.status(201).json(SUCCESS(result));
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post(
   "/confirmation",

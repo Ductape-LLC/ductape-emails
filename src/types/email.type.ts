@@ -37,4 +37,13 @@ export interface workspaceEmailRequests {
     owner_email?: string;
   }
 
+export interface healthcheckAlertEmailRequest {
+  emails: string[];
+  workspace_name: string;
+  product: string;
+  healthcheck: string;
+  env: string;
+  reason: string;
+}
+
 export interface genericErrors { code?: number, _original: unknown, details: [{ message: string }] }

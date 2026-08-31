@@ -5,6 +5,7 @@ import {
   forgotEmailRequests,
   otpEmailRequests,
   workspaceEmailRequests,
+  healthcheckAlertEmailRequest,
 } from '../types/email.type';
 
 export interface IEmailsService {
@@ -47,5 +48,9 @@ export default class EmailsService implements IEmailsService {
 
   async workspaceNewMember(payload: workspaceEmailRequests): Promise<unknown> {
     return await this.EmailRepo.createWorkspaceNewMemberEmail(payload);
+  }
+
+  async healthcheckAlert(payload: healthcheckAlertEmailRequest): Promise<unknown> {
+    return this.EmailRepo.createHealthcheckAlertEmail(payload);
   }
 }
