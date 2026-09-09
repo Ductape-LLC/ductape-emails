@@ -88,8 +88,10 @@ router.post(
       await OTPSchema.validateAsync(body);
       
       const result = await emailService.accountOTP(body);
+      console.log("SUCCESSFUL", result);
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
+      console.log("FAILED", e);
       if(process.env.NODE_ENV !== "production") console.log("ERROR-OTP-EMAIL", e);
       next(e);
     }
