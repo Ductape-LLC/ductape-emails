@@ -1,6 +1,6 @@
 export interface confirmationEmailRequests {
     firstname: string;
-    lastname: string;
+    lastname?: string;
     email: string;
     public_key: string;
     confirm_id: string;
@@ -9,7 +9,7 @@ export interface confirmationEmailRequests {
 
 export interface forgotEmailRequests {
     firstname: string;
-    lastname: string;
+    lastname?: string;
     email: string;
     public_key: string;
     forgot_id: string;
@@ -18,7 +18,7 @@ export interface forgotEmailRequests {
 
 export interface otpEmailRequests {
     firstname: string;
-    lastname: string;
+    lastname?: string;
     email: string;
     public_key: string;
     otp_id: string;
