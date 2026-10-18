@@ -1,16 +1,17 @@
 import nodemailer from 'nodemailer';
 import * as dotEnv from 'dotenv';
 import GmailTransport from 'gmail-nodemailer-transport';
+import { ENV } from '../config/env';
 dotEnv.config();
 
 export const mailerClient = async () => {
 
   const transporter = nodemailer.createTransport(new GmailTransport({
-    userId: process.env.MAIL_USER,               // your Gmail address
+    userId: ENV.MAIL_USER,               // your Gmail address
     auth: {
-        clientId: process.env.CLIENT_ID,         
-        clientSecret: process.env.CLIENT_SECRET,
-        refreshToken: process.env.REFRESH_TOKEN,
+        clientId: ENV.CLIENT_ID,         
+        clientSecret: ENV.CLIENT_SECRET,
+        refreshToken: ENV.REFRESH_TOKEN,
       }
   }));
 
@@ -21,7 +22,7 @@ export const mailerClient = async () => {
             port: 587,
             auth: {
                 user: 'noreply@xcelapp.com',
-                pass: process.env.MAIL_PASSWORD
+                pass: ENV.MAIL_PASSWORD
             },
             secure: false, 
             tls: {

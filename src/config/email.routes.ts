@@ -8,6 +8,7 @@ import WorkspaceSchema from "../validators/email.validator.workspace";
 import OTPSchema from "../validators/email.validator.otp";
 import HealthcheckAlertSchema from '../validators/email.validator.healthcheck';
 import { validateModuleRequest } from "../middleware/emails.middleware.modules";
+import { ENV } from './env';
 
 const router = Router();
 const emailService = new EmailService();
@@ -34,7 +35,7 @@ router.post(
       const result = await emailService.accountConfirmation(body);
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
-      if(process.env.NODE_ENV !== "production") console.log("ERROR-CONFIRM-EMAIL", e);
+      if(ENV.NODE_ENV !== "production") console.log("ERROR-CONFIRM-EMAIL", e);
       next(e);
     }
   }
@@ -52,7 +53,7 @@ router.post(
       const result = await emailService.welcomeEmail(body);
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
-      if(process.env.NODE_ENV !== "production") console.log("ERROR-WELCOME-EMAIL", e);
+      if(ENV.NODE_ENV !== "production") console.log("ERROR-WELCOME-EMAIL", e);
       next(e);
     }
   }
@@ -67,11 +68,11 @@ router.post(
 
       await ForgotSchema.validateAsync(body);
 
-      if(process.env.NODE_ENV !== "production") console.log("Zuper!")
+      if(ENV.NODE_ENV !== "production") console.log("Zuper!")
       const result = await emailService.accountForgot(body);
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
-      if(process.env.NODE_ENV !== "production") console.log("ERROR-FORGOT-EMAIL", e);
+      if(ENV.NODE_ENV !== "production") console.log("ERROR-FORGOT-EMAIL", e);
       next(e);
     }
   }
@@ -92,7 +93,7 @@ router.post(
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
       console.log("FAILED", e);
-      if(process.env.NODE_ENV !== "production") console.log("ERROR-OTP-EMAIL", e);
+      if(ENV.NODE_ENV !== "production") console.log("ERROR-OTP-EMAIL", e);
       next(e);
     }
   }
@@ -111,7 +112,7 @@ router.post(
       const result = await emailService.accountOTP(body);
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
-      if(process.env.NODE_ENV !== "production") console.log("ERROR-OTP-EMAIL", e);
+      if(ENV.NODE_ENV !== "production") console.log("ERROR-OTP-EMAIL", e);
       next(e);
     }
   }
@@ -126,11 +127,11 @@ router.post(
 
       await WorkspaceSchema.validateAsync(body);
 
-      if(process.env.NODE_ENV !== "production") console.log("Zuper!")
+      if(ENV.NODE_ENV !== "production") console.log("Zuper!")
       const result = await emailService.workspaceInvite(body);
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
-      if(process.env.NODE_ENV !== "production") console.log("ERROR-WORKSPACE-INVITE-EMAIL", e);
+      if(ENV.NODE_ENV !== "production") console.log("ERROR-WORKSPACE-INVITE-EMAIL", e);
       next(e);
     }
   }
@@ -145,11 +146,11 @@ router.post(
 
       await WorkspaceSchema.validateAsync(body);
 
-      if(process.env.NODE_ENV !== "production") console.log("Zuper!")
+      if(ENV.NODE_ENV !== "production") console.log("Zuper!")
       const result = await emailService.workspaceNewMember(body);
       return res.status(201).json(SUCCESS(result));
     } catch (e) {
-      if(process.env.NODE_ENV !== "production") console.log("ERROR-WORKSPACE-NEW-MEMBER-EMAIL", e);
+      if(ENV.NODE_ENV !== "production") console.log("ERROR-WORKSPACE-NEW-MEMBER-EMAIL", e);
       next(e);
     }
   }

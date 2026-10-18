@@ -13,6 +13,7 @@ import { MailOptions } from 'nodemailer/lib/json-transport';
 import { handleError } from '../errors/errors';
 import * as dotEnv from 'dotenv';
 import { SERVER_BASE_URL } from '../utils/strings.utils';
+import { ENV } from '../config/env';
 dotEnv.config();
 
 const year = new Date().getFullYear();
@@ -34,7 +35,7 @@ export const EmailsRepo: IEmailsRepo = {
   async createHealthcheckAlertEmail(payload: healthcheckAlertEmailRequest): Promise<unknown> {
     const transporter = await mailerClient();
     return transporter.sendMail({
-      from: process.env.MAIL_USER,
+      from: ENV.MAIL_USER,
       to: payload.emails.join(','),
       subject: `Ductape health alert: ${payload.product}/${payload.healthcheck}`,
       text: [
@@ -77,7 +78,7 @@ export const EmailsRepo: IEmailsRepo = {
       );
 
       const mailOptions: MailOptions = {
-        from: process.env.MAIL_USER,
+        from: ENV.MAIL_USER,
         to: email,
         subject: 'Verify your Ductape.io account',
         // @ts-ignore
@@ -91,7 +92,7 @@ export const EmailsRepo: IEmailsRepo = {
       const success = await transporter.sendMail(mailOptions);
       return success;
     } catch (e) {
-      if (process.env.NODE_ENV !== 'production') console.log(e);
+      if (ENV.NODE_ENV !== 'production') console.log(e);
       throw handleError(e);
     }
   },
@@ -123,7 +124,7 @@ export const EmailsRepo: IEmailsRepo = {
       );
 
       const mailOptions: MailOptions = {
-        from: process.env.MAIL_USER,
+        from: ENV.MAIL_USER,
         to: email,
         subject: 'Welcome to Ductape',
         // @ts-ignore
@@ -137,7 +138,7 @@ export const EmailsRepo: IEmailsRepo = {
       const success = await transporter.sendMail(mailOptions);
       return success;
     } catch (e) {
-      if (process.env.NODE_ENV !== 'production') console.log(e);
+      if (ENV.NODE_ENV !== 'production') console.log(e);
       throw handleError(e);
     }
   },
@@ -168,7 +169,7 @@ export const EmailsRepo: IEmailsRepo = {
       );
 
       const mailOptions: MailOptions = {
-        from: process.env.MAIL_USER,
+        from: ENV.MAIL_USER,
         to: email,
         subject: 'Ductape.io Password Reset',
         // @ts-ignore
@@ -179,12 +180,12 @@ export const EmailsRepo: IEmailsRepo = {
                 ]*/
       };
 
-      // if(process.env.NODE_ENV !== "production") console.log(mailOptions);
+      // if(ENV.NODE_ENV !== "production") console.log(mailOptions);
       const success = await transporter.sendMail(mailOptions);
-      // if(process.env.NODE_ENV !== "production") console.log(success);
+      // if(ENV.NODE_ENV !== "production") console.log(success);
       return success;
     } catch (e) {
-      if (process.env.NODE_ENV !== 'production') console.log(e);
+      if (ENV.NODE_ENV !== 'production') console.log(e);
       throw handleError(e);
     }
   },
@@ -230,7 +231,7 @@ export const EmailsRepo: IEmailsRepo = {
       const success = await transporter.sendMail(mailOptions);
       return success;
     } catch (e) {
-      if (process.env.NODE_ENV !== 'production') console.log(e);
+      if (ENV.NODE_ENV !== 'production') console.log(e);
       throw handleError(e);
     }
   },
@@ -276,7 +277,7 @@ export const EmailsRepo: IEmailsRepo = {
       const success = await transporter.sendMail(mailOptions);
       return success;
     } catch (e) {
-      if (process.env.NODE_ENV !== 'production') console.log(e);
+      if (ENV.NODE_ENV !== 'production') console.log(e);
       throw handleError(e);
     }
   },
@@ -307,7 +308,7 @@ export const EmailsRepo: IEmailsRepo = {
       );
 
       const mailOptions: MailOptions = {
-        from: process.env.MAIL_USER,
+        from: ENV.MAIL_USER,
         to: email,
         subject: 'Verify your Ductape account',
         // @ts-ignore
@@ -318,7 +319,7 @@ export const EmailsRepo: IEmailsRepo = {
       const success = await transporter.sendMail(mailOptions);
       return success;
     } catch (e) {
-      if (process.env.NODE_ENV !== 'production') console.log(e);
+      if (ENV.NODE_ENV !== 'production') console.log(e);
       throw handleError(e);
     }
   },
@@ -330,7 +331,7 @@ export const EmailsRepo: IEmailsRepo = {
 
       const { owner, workspace_name, invitation_link, year, email } = payload;
 
-      const redirect_url = process.env.INVITE_REDIRECT_URL;
+      const redirect_url = ENV.INVITE_REDIRECT_URL;
 
       const transporter = await mailerClient();
 
@@ -352,7 +353,7 @@ export const EmailsRepo: IEmailsRepo = {
       );
 
       const mailOptions: MailOptions = {
-        from: process.env.MAIL_USER,
+        from: ENV.MAIL_USER,
         to: email,
         subject: 'Ductape Workspace Invite',
         // @ts-ignore
@@ -363,12 +364,12 @@ export const EmailsRepo: IEmailsRepo = {
                 ]*/
       };
 
-      // if(process.env.NODE_ENV !== "production") console.log(mailOptions);
+      // if(ENV.NODE_ENV !== "production") console.log(mailOptions);
       const success = await transporter.sendMail(mailOptions);
-      // if(process.env.NODE_ENV !== "production") console.log(success);
+      // if(ENV.NODE_ENV !== "production") console.log(success);
       return success;
     } catch (e) {
-      if (process.env.NODE_ENV !== 'production') console.log(e);
+      if (ENV.NODE_ENV !== 'production') console.log(e);
       throw handleError(e);
     }
   },
@@ -400,7 +401,7 @@ export const EmailsRepo: IEmailsRepo = {
       );
 
       const mailOptions: MailOptions = {
-        from: process.env.MAIL_USER,
+        from: ENV.MAIL_USER,
         to: owner_email,
         subject: 'Ductape New Workspace Member',
         // @ts-ignore
@@ -411,12 +412,12 @@ export const EmailsRepo: IEmailsRepo = {
                 ]*/
       };
 
-      // if(process.env.NODE_ENV !== "production") console.log(mailOptions);
+      // if(ENV.NODE_ENV !== "production") console.log(mailOptions);
       const success = await transporter.sendMail(mailOptions);
-      // if(process.env.NODE_ENV !== "production") console.log(success);
+      // if(ENV.NODE_ENV !== "production") console.log(success);
       return success;
     } catch (e) {
-      if (process.env.NODE_ENV !== 'production') console.log(e);
+      if (ENV.NODE_ENV !== 'production') console.log(e);
       throw handleError(e);
     }
   },

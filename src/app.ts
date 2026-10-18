@@ -5,11 +5,13 @@ import router from './commons/routesConfig';
 import cors from 'cors';
 import { UserError, sendErrorResponse } from './errors/errors';
 import { urlRewrite } from './middleware/url-rewrite';
+import { ENV, assertEnv } from './config/env';
 
 const app = express();
-const port = process.env.PORT || 8003;
+const port = ENV.PORT || 8003;
 
 dotEnv.config();
+assertEnv();
 
 app.use(urlRewrite);
 
@@ -32,7 +34,7 @@ app.get('/emails/v1/status', (_req, res) => {
 });
 
 app.use(router);
-mongoose.connect(process.env.DB_HOST as string).catch((e) => {
+mongoose.connect(ENV.DB_HOST as string).catch((e) => {
   console.log(e);
 });
 
